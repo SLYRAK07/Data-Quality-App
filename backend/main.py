@@ -9,14 +9,23 @@ app = FastAPI()
 
 
 @app.post("/analyze")
-async def analyze(file: UploadFile):
+async def analyze(
+    file: UploadFile,
+    range_column: str = None,
+    min_val: float = None,
+    max_val: float = None,
+    ignore_columns: str = None,
+):
     content = await file.read()
     df = pd.read_csv(StringIO(content.decode("utf-8")))
 
     missing = check_missing_values(df)
-    duplicates = check_duplicates(df, ignore_columns=["id"])
-    if "age" in df.columns:
-        outliers = check_out_of_range(df, "age", 0, 120)
+
+    ignore_list = ignore_columns.split(",") if ignore_columns else []
+    duplicates = check_duplicates(df, ignore_columns=ignore_list)
+
+    if range_column and range_column in df.columns and min_val is not None and max_val is not None:
+        outliers = check_out_of_range(df, range_column, min_val, max_val)
     else:
         outliers = pd.DataFrame()
 
