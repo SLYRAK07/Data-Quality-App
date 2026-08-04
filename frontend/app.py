@@ -46,8 +46,7 @@ if uploaded_file is not None:
             params["min_val"] = min_val
             params["max_val"] = max_val
 
-        response = requests.post("http://127.0.0.1:8000/analyze", files=files, params=params)
-
+        response = requests.post("http://backend:8000/analyze", files=files, params=params)
         if response.status_code == 200:
             result = response.json()
 
@@ -72,7 +71,7 @@ if uploaded_file is not None:
             st.text(response.text)
 
 st.subheader("Historique des analyses")
-history_response = requests.get("http://127.0.0.1:8000/history")
+history_response = requests.get("http://backend:8000/history")
 if history_response.status_code == 200:
     history = history_response.json()
     st.dataframe(pd.DataFrame(history))
