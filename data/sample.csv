@@ -1,7 +1,7 @@
-id,nom,age,salaire
-1,Ahmed,25,4500
-2,Sara,,3200
-3,Youssef,150,5000
-4,Ahmed,25,4500
-5,Nadia,30,
-6,Khalid,28,3800
+id,date_reception,fournisseur,quantite,zone_stockage
+1,2026-07-14,Fournisseur A,150,Zone-A1
+2,2026-07-15,Fournisseur B,,Zone-B2
+3,2026-07-16,Fournisseur A,9500,Zone-A1
+4,2026-07-16,Fournisseur A,150,Zone-A1
+5,2026-07-17,Fournisseur C,80,
+6,2026-07-18,Fournisseur D,220,Zone-C3
