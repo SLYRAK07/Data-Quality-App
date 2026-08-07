@@ -5,3 +5,4 @@ id,date_reception,fournisseur,quantite,zone_stockage
 4,2026-07-16,Fournisseur A,150,Zone-A1
 5,2026-07-17,Fournisseur C,80,
 6,2026-07-18,Fournisseur D,220,Zone-C3
+7,2026-07-15,Fournisseur B,,Zone-B2

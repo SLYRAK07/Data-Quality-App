@@ -66,7 +66,7 @@ uvicorn backend.main:app --reload
 streamlit run frontend/app.py
 ```
 
-⚠️ Hors Docker, l'interface Streamlit contacte l'API sur `http://127.0.0.1:8000`. Avec Docker, elle utilise `http://backend:8000` (nom du service). Le code actuel est configuré pour Docker par défaut.
+
 
 ## Lancer les tests
 
@@ -77,9 +77,9 @@ pytest -q
 ## Fichier de démonstration
 
 Un fichier `data/sample.csv` est fourni avec des anomalies volontaires pour tester l'application :
-- Valeurs manquantes (age, salaire)
-- Valeur hors seuil (age = 150)
-- Doublon (2 lignes identiques hors id)
+- Valeurs manquantes 
+- Valeur hors seuil 
+- Doublon 
 
 ## Intégration continue
 
@@ -87,4 +87,4 @@ Un workflow GitHub Actions (`.github/workflows/tests.yml`) exécute automatiquem
 
 ## Limites
 
-Authentification, connexion à des systèmes réels, Kubernetes, cloud complexe, alertes et moteur de règles avancé sont hors périmètre de ce prototype.
+ Kubernetes, cloud complexe, alertes et moteur de règles avancé sont hors périmètre de ce prototype.
