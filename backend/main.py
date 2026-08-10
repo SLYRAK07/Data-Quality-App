@@ -5,6 +5,7 @@ from io import StringIO
 import json
 import io
 import csv
+import bcrypt
 
 from backend.rules import (
     check_missing_values,
@@ -12,7 +13,7 @@ from backend.rules import (
     check_multiple_ranges,
     check_frozen_values,
 )
-from backend.database import SessionLocal, AnalysisRun, SavedConfig
+from backend.database import SessionLocal, AnalysisRun, User
 from backend.report import generate_pdf_report
 
 app = FastAPI()
@@ -169,4 +170,44 @@ async def export_csv(
         headers={"Content-Disposition": f"attachment; filename=anomalies_{file.filename}.csv"},
     )
 
+@app.post("/register")
+def register(
+    username: str = Form(...),
+    full_name: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+):
+    session = SessionLocal()
 
+    existing = session.query(User).filter(User.username == username).first()
+    if existing:
+        session.close()
+        return {"status": "error", "message": "Ce nom d'utilisateur existe deja."}
+
+    existing_email = session.query(User).filter(User.email == email).first()
+    if existing_email:
+        session.close()
+        return {"status": "error", "message": "Cet email est deja utilise."}
+
+    password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+    new_user = User(username=username, full_name=full_name, email=email, password_hash=password_hash)
+    session.add(new_user)
+    session.commit()
+    session.close()
+
+    return {"status": "ok", "message": "Compte cree avec succes."}
+
+
+@app.post("/login")
+def login(username: str = Form(...), password: str = Form(...)):
+    session = SessionLocal()
+    user = session.query(User).filter(User.username == username).first()
+    session.close()
+
+    if not user:
+        return {"status": "error", "message": "Identifiants incorrects."}
+
+    if bcrypt.checkpw(password.encode("utf-8"), user.password_hash.encode("utf-8")):
+        return {"status": "ok", "username": username, "full_name": user.full_name}
+    else:
+        return {"status": "error", "message": "Identifiants incorrects."}

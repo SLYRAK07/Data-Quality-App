@@ -27,9 +27,20 @@ class SavedConfig(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
-    range_configs = Column(String)   # JSON: liste de {"column", "min", "max"}
-    ignore_columns = Column(String)  # chaine separee par des virgules
+    range_configs = Column(String)
+    ignore_columns = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
+class User(Base):
+    """Un utilisateur autorise a se connecter a l'application."""
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True, nullable=False)
+    full_name = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    password_hash = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 Base.metadata.create_all(engine)
