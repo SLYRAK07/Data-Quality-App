@@ -20,3 +20,23 @@ jobs:
 
       - name: Lancer les tests
         run: pytest -q
+
+      - name: Build et lancement des conteneurs
+        run: docker compose up -d --build
+
+      - name: Attendre que les services soient prets
+        run: sleep 15
+
+      - name: Verifier que le backend repond
+        run: curl --fail http://localhost:8000/docs
+
+      - name: Verifier que le frontend repond
+        run: curl --fail http://localhost:8501/_stcore/health
+
+      - name: Afficher les logs en cas d'echec
+        if: failure()
+        run: docker compose logs
+
+      - name: Arreter les conteneurs
+        if: always()
+        run: docker compose down -v
