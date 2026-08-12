@@ -9,7 +9,7 @@ class QualityReport(FPDF):
         self.set_text_color(255, 255, 255)
         self.set_font("Helvetica", "B", 16)
         self.set_xy(10, 8)
-        self.cell(0, 10, "Rapport de Qualite des Donnees", ln=True)
+        self.cell(0, 10, "Rapport de Qualite des Données", ln=True)
         self.ln(15)
 
     def footer(self):
@@ -27,7 +27,7 @@ def _add_table(pdf, title, rows):
 
     if not rows:
         pdf.set_font("Helvetica", "I", 10)
-        pdf.cell(0, 6, "Aucune anomalie detectee.", ln=True)
+        pdf.cell(0, 6, "Aucune anomalie detectée.", ln=True)
         pdf.ln(4)
         return
 
@@ -60,7 +60,7 @@ def generate_pdf_report(filename: str, result: dict) -> bytes:
 
     pdf.set_font("Helvetica", "B", 14)
     pdf.set_text_color(11, 110, 79)
-    pdf.cell(0, 10, f"Score de qualite : {result['quality_score']} %", ln=True)
+    pdf.cell(0, 10, f"Score de qualité : {result['quality_score']} %", ln=True)
     pdf.ln(3)
 
     total_outliers = sum(len(v) for v in result["outliers_by_column"].values())

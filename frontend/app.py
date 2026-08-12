@@ -671,25 +671,25 @@ elif selected == "Analyse":
                 key="download_pdf",
             )
 
-        csv_files = {"file": (st.session_state["uploaded_filename"], st.session_state["pdf_file_bytes"], "text/csv")}
-        csv_response = requests.post(f"{API_URL}/export-csv", files=csv_files, data=st.session_state["pdf_data"])
-        if csv_response.status_code == 200:
-            st.download_button(
-                label="Télécharger le rapport CSV",
-                data=csv_response.content,
-                file_name=f"anomalies_{st.session_state['uploaded_filename']}.csv",
-                mime="text/csv",
-                key="download_csv",
-            )
+        #csv_files = {"file": (st.session_state["uploaded_filename"], st.session_state["pdf_file_bytes"], "text/csv")}
+        #csv_response = requests.post(f"{API_URL}/export-csv", files=csv_files, data=st.session_state["pdf_data"])
+        #if csv_response.status_code == 200:
+            #st.download_button(
+                #label="Télécharger le rapport CSV",
+                #data=csv_response.content,
+                #file_name=f"anomalies_{st.session_state['uploaded_filename']}.csv",
+                #mime="text/csv",
+                #key="download_csv",
+            #)
 
         total_outliers = sum(len(v) for v in result["outliers_by_column"].values())
 
-        c1, c2, c3, c4, c5 = st.columns(5)
+        c1, c2, c3, c4 = st.columns(4)
         c1.metric("Score de qualité", f"{result['quality_score']} %")
         c2.metric("Valeurs manquantes", len(result["missing"]))
         c3.metric("Valeurs hors seuil", total_outliers)
         c4.metric("Doublons", len(result["duplicates"]))
-        c5.metric("Colonnes figées", len(result["frozen_columns"]))
+        #c5.metric("Colonnes figées", len(result["frozen_columns"]))
 
         st.subheader("Detail des anomalies")
         st.write("Valeurs manquantes")
@@ -706,11 +706,11 @@ elif selected == "Analyse":
         st.write("Doublons")
         st.dataframe(pd.DataFrame(result["duplicates"]))
 
-        st.write("Colonnes à valeur figée")
-        if result["frozen_columns"]:
-            st.dataframe(pd.DataFrame(result["frozen_columns"]))
-        else:
-            st.info("Aucune colonne à valeur figée détectée.")
+        #st.write("Colonnes à valeur figée")
+        #if result["frozen_columns"]:
+            #st.dataframe(pd.DataFrame(result["frozen_columns"]))
+        #else:
+            #st.info("Aucune colonne à valeur figée détectée.")
 
 # ----- PAGE HISTORIQUE -----
 elif selected == "Historique":
@@ -738,8 +738,8 @@ elif selected == "Tableau de bord":
 
             col_score, col_total, col_nb = st.columns(3)
             col_score.metric("Score de qualité", f"{dernier['quality_score']} %")
-            col_total.metric("Lignes analysees", int(dernier["total_rows"]))
-            col_nb.metric("Analyses effectuees", len(history_df))
+            col_total.metric("Lignes analysées", int(dernier["total_rows"]))
+            col_nb.metric("Analyses effectuées", len(history_df))
 
             col_gauge, col_pie = st.columns(2)
             with col_gauge:

@@ -34,26 +34,3 @@ def check_multiple_ranges(df: pd.DataFrame, range_configs: list) -> dict:
     return results
 
 
-def check_frozen_values(df: pd.DataFrame, ignore_columns: list = None) -> list:
-    """
-    Detecte les colonnes dont toutes les valeurs non-nulles sont identiques
-    (variance nulle) - souvent signe d'un champ mal rempli ou d'une erreur d'export.
-    Retourne une liste de dicts {column, valeur_figee, nombre_lignes}.
-    """
-    ignore_columns = ignore_columns or []
-    frozen = []
-
-    for col in df.columns:
-        if col in ignore_columns:
-            continue
-        non_null = df[col].dropna()
-        if len(non_null) == 0:
-            continue
-        if non_null.nunique() == 1:
-            frozen.append({
-                "column": col,
-                "valeur_figee": str(non_null.iloc[0]),
-                "nombre_lignes": int(len(non_null)),
-            })
-
-    return frozen

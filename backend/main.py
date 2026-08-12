@@ -11,7 +11,7 @@ from backend.rules import (
     check_missing_values,
     check_duplicates,
     check_multiple_ranges,
-    check_frozen_values,
+    #check_frozen_values,
 )
 from backend.database import SessionLocal, AnalysisRun, User
 from backend.report import generate_pdf_report
@@ -27,7 +27,7 @@ def run_analysis(df, range_configs, ignore_columns):
 
     outliers_by_column = check_multiple_ranges(df, range_configs) if range_configs else {}
 
-    frozen_columns = check_frozen_values(df, ignore_columns=ignore_list)
+    #frozen_columns = check_frozen_values(df, ignore_columns=ignore_list)
 
     all_outlier_indices = set()
     for outlier_df in outliers_by_column.values():
@@ -37,11 +37,10 @@ def run_analysis(df, range_configs, ignore_columns):
     clean_rows = len(df) - len(anomalous_indices)
     quality_score = round(100 * clean_rows / len(df), 1) if len(df) > 0 else 0
 
-    return missing, outliers_by_column, duplicates, quality_score, frozen_columns
-
+    return missing, outliers_by_column, duplicates, quality_score
 
 def build_result(df, range_configs, ignore_columns):
-    missing, outliers_by_column, duplicates, quality_score, frozen_columns = run_analysis(
+    missing, outliers_by_column, duplicates, quality_score = run_analysis(
         df, range_configs, ignore_columns
     )
 
@@ -59,7 +58,7 @@ def build_result(df, range_configs, ignore_columns):
         "missing_count": len(missing),
         "duplicate_count": len(duplicates),
         "outlier_count": sum(len(v) for v in outliers_response.values()),
-        "frozen_columns": frozen_columns,
+        #"frozen_columns": frozen_columns,
     }
 
 
@@ -158,8 +157,8 @@ async def export_csv(
     for row in result["duplicates"]:
         writer.writerow(["Doublon", "", row])
 
-    for row in result["frozen_columns"]:
-        writer.writerow(["Valeur figée", row["column"], f"{row['valeur_figee']} ({row['nombre_lignes']} lignes)"])
+    #for row in result["frozen_columns"]:
+        #writer.writerow(["Valeur figée", row["column"], f"{row['valeur_figee']} ({row['nombre_lignes']} lignes)"])
 
     output.seek(0)
     csv_bytes = output.getvalue().encode("utf-8-sig")
