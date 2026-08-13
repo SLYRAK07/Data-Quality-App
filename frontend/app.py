@@ -5,9 +5,11 @@ import plotly.graph_objects as go
 import plotly.express as px
 import json
 from streamlit_option_menu import option_menu
+import os
+
 
 st.set_page_config(page_title="DataTrack", layout="wide")
-API_URL = "http://backend:8000"
+API_URL = os.getenv("API_URL", "http://backend:8000")
 
 # ----- AUTHENTIFICATION -----
 if "authenticated" not in st.session_state:
