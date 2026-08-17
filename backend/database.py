@@ -1,8 +1,10 @@
+import os
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float
 from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
 
-engine = create_engine("sqlite:///./data/quality.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./data/quality.db")
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
@@ -42,5 +44,6 @@ class User(Base):
     email = Column(String, nullable=False)
     password_hash = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+
 
 Base.metadata.create_all(engine)
