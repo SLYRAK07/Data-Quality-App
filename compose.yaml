@@ -1,9 +1,30 @@
 services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: SysData
+      POSTGRES_PASSWORD: localpass
+      POSTGRES_DB: datatrack
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U SysData -d datatrack" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   backend:
     build: .
     command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://SysData:localpass@postgres:5432/datatrack
+    depends_on:
+      postgres:
+        condition: service_healthy
     volumes:
       - ./data:/app/data
 
@@ -14,3 +35,6 @@ services:
       - "8501:8501"
     depends_on:
       - backend
+
+volumes:
+  pgdata:
