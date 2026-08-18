@@ -1,11 +1,8 @@
 name: Tests
-
 on: [push, pull_request]
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:16
@@ -20,41 +17,30 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
-
     env:
       DATABASE_URL: postgresql://SysData:testpass@localhost:5432/testdb
-
     steps:
       - name: Recuperer le code
         uses: actions/checkout@v4
-
       - name: Installer Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Installer les dependances
         run: pip install -r requirements.txt
-
       - name: Lancer les tests
         run: pytest -q
-
       - name: Build et lancement des conteneurs
         run: docker compose up -d --build
-
       - name: Attendre que les services soient prets
         run: sleep 15
-
       - name: Verifier que le backend repond
         run: curl --fail http://localhost:8000/docs
-
       - name: Verifier que le frontend repond
         run: curl --fail http://localhost:8501/_stcore/health
-
       - name: Afficher les logs en cas d'echec
         if: failure()
         run: docker compose logs
-
       - name: Arreter les conteneurs
         if: always()
         run: docker compose down -v

@@ -14,7 +14,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
   backend:
     build: .
     command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
@@ -27,7 +26,7 @@ services:
         condition: service_healthy
     volumes:
       - ./data:/app/data
-
+      - ./quality.db:/app/quality.db
   frontend:
     build: .
     command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
@@ -35,6 +34,14 @@ services:
       - "8501:8501"
     depends_on:
       - backend
-
+  db-viewer:
+    image: coleifer/sqlite-web
+    command: sqlite_web -H 0.0.0.0 /data/quality.db
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./quality.db:/data/quality.db
+    depends_on:
+      - backend
 volumes:
   pgdata:
