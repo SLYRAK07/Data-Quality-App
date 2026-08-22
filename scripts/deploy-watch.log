@@ -1,0 +1,70 @@
+[2026-08-22 15:30:01] Verification des nouveaux commits...
+From https://github.com/wisal4/data-quality-app
+ * branch            develop    -> FETCH_HEAD
+[2026-08-22 15:30:23] Aucun changement, rien a faire.
+[2026-08-22 15:50:02] Verification des nouveaux commits...
+From https://github.com/wisal4/data-quality-app
+ * branch            develop    -> FETCH_HEAD
+[2026-08-22 15:50:26] Aucun changement, rien a faire.
+[2026-08-22 15:51:28] Verification des nouveaux commits...
+From https://github.com/wisal4/data-quality-app
+ * branch            develop    -> FETCH_HEAD
+[2026-08-22 15:51:51] Nouveau commit detecte (1b4e83ab2e5812b0ebf8cbd22c3ca81dcc502a6c). Lancement du deploiement Ansible.
+
+PLAY [Déploiement local du projet] *********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [Vérifier que Docker est installé] ****************************************
+ok: [localhost]
+
+TASK [Récupérer les derniers changements du dépôt (git pull)] ******************
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/core.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/mathstuff.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+changed: [localhost]
+
+TASK [Arrêter et nettoyer les anciens conteneurs] ******************************
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/core.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/mathstuff.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+changed: [localhost]
+
+TASK [Nettoyer les images Docker non utilisées (dangling)] *********************
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/core.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/mathstuff.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+ok: [localhost]
+
+TASK [Builder et lancer les conteneurs] ****************************************
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/core.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+[WARNING]: Skipping plugin (/usr/lib/python3/dist-
+packages/ansible/plugins/filter/mathstuff.py) as it seems to be invalid: cannot
+import name 'environmentfilter' from 'jinja2.filters'
+(/home/ey/.local/lib/python3.10/site-packages/jinja2/filters.py)
+fatal: [localhost]: FAILED! => {"changed": true, "cmd": ["docker", "compose", "up", "--build", "-d"], "delta": "0:00:31.788175", "end": "2026-08-22 15:54:41.492034", "msg": "non-zero return code", "rc": 1, "start": "2026-08-22 15:54:09.703859", "stderr": " Image data-quality-app-frontend Building \n Image data-quality-app-backend Building \n Image data-quality-app-backend Built \n Image data-quality-app-frontend Built \ntime=\"2026-08-22T15:54:35+01:00\" level=warning msg=\"Found orphan containers ([data-quality-app-nginx-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.\"\n Container data-quality-app-postgres-1 Creating \n Container data-quality-app-postgres-1 Created \n Container data-quality-app-backend-1 Creating \n Container data-quality-app-backend-1 Created \n Container data-quality-app-db-viewer-1 Creating \n Container data-quality-app-frontend-1 Creating \n Container data-quality-app-db-viewer-1 Created \n Container data-quality-app-frontend-1 Created \n Container data-quality-app-postgres-1 Starting \n Container data-quality-app-postgres-1 Started \n Container data-quality-app-postgres-1 Waiting \n Container data-quality-app-postgres-1 Healthy \n Container data-quality-app-backend-1 Starting \nError response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint data-quality-app-backend-1 (3929104119d5400b8f6f7d600074397a71576f7e9046839758776d51506325d9): Bind for 0.0.0.0:8000 failed: port is already allocated", "stderr_lines": [" Image data-quality-app-frontend Building ", " Image data-quality-app-backend Building ", " Image data-quality-app-backend Built ", " Image data-quality-app-frontend Built ", "time=\"2026-08-22T15:54:35+01:00\" level=warning msg=\"Found orphan containers ([data-quality-app-nginx-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.\"", " Container data-quality-app-postgres-1 Creating ", " Container data-quality-app-postgres-1 Created ", " Container data-quality-app-backend-1 Creating ", " Container data-quality-app-backend-1 Created ", " Container data-quality-app-db-viewer-1 Creating ", " Container data-quality-app-frontend-1 Creating ", " Container data-quality-app-db-viewer-1 Created ", " Container data-quality-app-frontend-1 Created ", " Container data-quality-app-postgres-1 Starting ", " Container data-quality-app-postgres-1 Started ", " Container data-quality-app-postgres-1 Waiting ", " Container data-quality-app-postgres-1 Healthy ", " Container data-quality-app-backend-1 Starting ", "Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint data-quality-app-backend-1 (3929104119d5400b8f6f7d600074397a71576f7e9046839758776d51506325d9): Bind for 0.0.0.0:8000 failed: port is already allocated"], "stdout": "#1 [internal] load local bake definitions\n#1 reading from stdin 1.07kB done\n#1 DONE 0.1s\n\n#2 [backend internal] load build definition from Dockerfile\n#2 transferring dockerfile:\n#2 transferring dockerfile: 279B 0.1s done\n#2 DONE 0.6s\n\n#3 [backend] resolve image config for docker-image://docker.io/docker/dockerfile:1\n#3 DONE 2.8s\n\n#4 [backend] docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32\n#4 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.1s done\n#4 CACHED\n\n#5 [frontend internal] load metadata for docker.io/library/python:3.12-slim\n#5 DONE 0.8s\n\n#6 [frontend internal] load .dockerignore\n#6 transferring context: 127B 0.0s done\n#6 transferring context: 127B 0.0s done\n#6 DONE 0.1s\n\n#7 [backend 1/5] FROM docker.io/library/python:3.12-slim@sha256:2c941e860699f878900b0edc2403613c234d4b32eda3cc9fa7036991a2a63c4a\n#7 resolve docker.io/library/python:3.12-slim@sha256:2c941e860699f878900b0edc2403613c234d4b32eda3cc9fa7036991a2a63c4a 0.1s done\n#7 DONE 0.1s\n\n#8 [frontend internal] load build context\n#8 transferring context: 15.41kB 0.2s done\n#8 DONE 0.2s\n\n#9 [backend 3/5] COPY requirements.txt .\n#9 CACHED\n\n#10 [backend 2/5] WORKDIR /app\n#10 CACHED\n\n#11 [backend 4/5] RUN pip install --timeout 600 --retries 10 -r requirements.txt\n#11 CACHED\n\n#12 [backend 5/5] COPY . .\n#12 DONE 0.2s\n\n#13 [frontend] exporting to image\n#13 exporting layers\n#13 exporting layers 0.6s done\n#13 exporting manifest sha256:5a0d6c4bf358c8d07788018d6b295a4e060a279d3ed3fde092dbe4fc5e5100df 0.0s done\n#13 exporting config sha256:608768c2ae4519f20ccd45a4e83afa95cd6c1ffcb410e86bb023b2412e82a0c1 0.1s done\n#13 exporting attestation manifest sha256:952c0ee3e92e6a4d69e314893429fb245a43342c710be54a4e0246920061b603\n#13 exporting attestation manifest sha256:952c0ee3e92e6a4d69e314893429fb245a43342c710be54a4e0246920061b603 0.0s done\n#13 exporting manifest list sha256:d375b8955787a19e6edfea18d21114addd42d745f0633324afaa2edc39f19b72 0.0s done\n#13 naming to docker.io/library/data-quality-app-frontend:latest 0.0s done\n#13 unpacking to docker.io/library/data-quality-app-frontend:latest\n#13 unpacking to docker.io/library/data-quality-app-frontend:latest 0.4s done\n#13 DONE 1.3s\n\n#14 [backend] exporting to image\n#14 exporting layers 0.6s done\n#14 exporting manifest sha256:4118467a0c470f026893a50041f9cae8ddb4b9d02c2d959c59108335bb8aab18 0.0s done\n#14 exporting config sha256:c8d738f9a2952afd804df65bc09b636ca4cb926852e9c4f1b556a21901cb8566 0.0s done\n#14 exporting attestation manifest sha256:534cfd8ad2356f05db8d23a57650c2c90ae3942dd1d96898b3e635d5039623b4 0.0s done\n#14 exporting manifest list sha256:6a390a3386da16461e31acc756d3d69990f746554b76284cd39b083557f2e069 0.0s done\n#14 naming to docker.io/library/data-quality-app-backend:latest 0.0s done\n#14 unpacking to docker.io/library/data-quality-app-backend:latest 0.4s done\n#14 DONE 1.3s\n\n#15 [frontend] resolving provenance for metadata file\n#15 DONE 0.0s\n\n#16 [backend] resolving provenance for metadata file\n#16 DONE 0.0s", "stdout_lines": ["#1 [internal] load local bake definitions", "#1 reading from stdin 1.07kB done", "#1 DONE 0.1s", "", "#2 [backend internal] load build definition from Dockerfile", "#2 transferring dockerfile:", "#2 transferring dockerfile: 279B 0.1s done", "#2 DONE 0.6s", "", "#3 [backend] resolve image config for docker-image://docker.io/docker/dockerfile:1", "#3 DONE 2.8s", "", "#4 [backend] docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32", "#4 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.1s done", "#4 CACHED", "", "#5 [frontend internal] load metadata for docker.io/library/python:3.12-slim", "#5 DONE 0.8s", "", "#6 [frontend internal] load .dockerignore", "#6 transferring context: 127B 0.0s done", "#6 transferring context: 127B 0.0s done", "#6 DONE 0.1s", "", "#7 [backend 1/5] FROM docker.io/library/python:3.12-slim@sha256:2c941e860699f878900b0edc2403613c234d4b32eda3cc9fa7036991a2a63c4a", "#7 resolve docker.io/library/python:3.12-slim@sha256:2c941e860699f878900b0edc2403613c234d4b32eda3cc9fa7036991a2a63c4a 0.1s done", "#7 DONE 0.1s", "", "#8 [frontend internal] load build context", "#8 transferring context: 15.41kB 0.2s done", "#8 DONE 0.2s", "", "#9 [backend 3/5] COPY requirements.txt .", "#9 CACHED", "", "#10 [backend 2/5] WORKDIR /app", "#10 CACHED", "", "#11 [backend 4/5] RUN pip install --timeout 600 --retries 10 -r requirements.txt", "#11 CACHED", "", "#12 [backend 5/5] COPY . .", "#12 DONE 0.2s", "", "#13 [frontend] exporting to image", "#13 exporting layers", "#13 exporting layers 0.6s done", "#13 exporting manifest sha256:5a0d6c4bf358c8d07788018d6b295a4e060a279d3ed3fde092dbe4fc5e5100df 0.0s done", "#13 exporting config sha256:608768c2ae4519f20ccd45a4e83afa95cd6c1ffcb410e86bb023b2412e82a0c1 0.1s done", "#13 exporting attestation manifest sha256:952c0ee3e92e6a4d69e314893429fb245a43342c710be54a4e0246920061b603", "#13 exporting attestation manifest sha256:952c0ee3e92e6a4d69e314893429fb245a43342c710be54a4e0246920061b603 0.0s done", "#13 exporting manifest list sha256:d375b8955787a19e6edfea18d21114addd42d745f0633324afaa2edc39f19b72 0.0s done", "#13 naming to docker.io/library/data-quality-app-frontend:latest 0.0s done", "#13 unpacking to docker.io/library/data-quality-app-frontend:latest", "#13 unpacking to docker.io/library/data-quality-app-frontend:latest 0.4s done", "#13 DONE 1.3s", "", "#14 [backend] exporting to image", "#14 exporting layers 0.6s done", "#14 exporting manifest sha256:4118467a0c470f026893a50041f9cae8ddb4b9d02c2d959c59108335bb8aab18 0.0s done", "#14 exporting config sha256:c8d738f9a2952afd804df65bc09b636ca4cb926852e9c4f1b556a21901cb8566 0.0s done", "#14 exporting attestation manifest sha256:534cfd8ad2356f05db8d23a57650c2c90ae3942dd1d96898b3e635d5039623b4 0.0s done", "#14 exporting manifest list sha256:6a390a3386da16461e31acc756d3d69990f746554b76284cd39b083557f2e069 0.0s done", "#14 naming to docker.io/library/data-quality-app-backend:latest 0.0s done", "#14 unpacking to docker.io/library/data-quality-app-backend:latest 0.4s done", "#14 DONE 1.3s", "", "#15 [frontend] resolving provenance for metadata file", "#15 DONE 0.0s", "", "#16 [backend] resolving provenance for metadata file", "#16 DONE 0.0s"]}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=5    changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+[2026-08-22 15:54:41] Deploiement termine.
+[2026-08-22 15:56:30] Verification des nouveaux commits...
