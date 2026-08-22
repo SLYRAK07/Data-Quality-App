@@ -14,11 +14,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
   backend:
     build: .
     command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       DATABASE_URL: postgresql://SysData:localpass@postgres:5432/datatrack
     depends_on:
@@ -27,13 +28,28 @@ services:
     volumes:
       - ./data:/app/data
       - ./quality.db:/app/quality.db
+
   frontend:
     build: .
     command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
-    ports:
-      - "8501:8501"
+    expose:
+      - "8501"
+    environment:
+      API_URL: http://nginx:8080
     depends_on:
       - backend
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:8080"
+      - "8501:8501"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+
   db-viewer:
     image: coleifer/sqlite-web
     command: sqlite_web -H 0.0.0.0 /data/quality.db
@@ -43,5 +59,6 @@ services:
       - ./quality.db:/data/quality.db
     depends_on:
       - backend
+
 volumes:
   pgdata:
