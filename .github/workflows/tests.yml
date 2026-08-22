@@ -3,22 +3,6 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: SysData
-          POSTGRES_PASSWORD: testpass
-          POSTGRES_DB: testdb
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U SysData"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-    env:
-      DATABASE_URL: postgresql://SysData:testpass@localhost:5432/testdb
     steps:
       - name: Recuperer le code
         uses: actions/checkout@v4
