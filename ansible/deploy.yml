@@ -1,42 +1,30 @@
 ---
-- name: Déploiement local du projet
+- name: Déploiement du projet
   hosts: local
   become: false
   vars:
-    project_dir: /mnt/c/users/a.yassir.el/downloads/data-quality-app
+    project_dir: "{{ project_dir | default('/mnt/c/users/a.yassir.el/downloads/data-quality-app') }}"
     health_url: http://localhost:8000/docs
-
   tasks:
     - name: Vérifier que Docker est installé
       command: docker --version
       register: docker_check
       changed_when: false
-
-    - name: Récupérer les derniers changements du dépôt (git pull)
-      command: git pull
-      args:
-        chdir: "{{ project_dir }}"
-      register: git_pull
-      changed_when: "'Already up to date' not in git_pull.stdout"
-
     - name: Arrêter et nettoyer les anciens conteneurs
-      command: docker compose down
+      command: docker compose down --remove-orphans
       args:
         chdir: "{{ project_dir }}"
       register: compose_down
       changed_when: true
-
     - name: Nettoyer les images Docker non utilisées (dangling)
       command: docker image prune -f
       register: image_prune
       changed_when: "'Total reclaimed space: 0B' not in image_prune.stdout"
-
     - name: Builder et lancer les conteneurs
-      command: docker compose up --build -d
+      command: docker compose up --build -d --scale backend=3 --scale frontend=3
       args:
         chdir: "{{ project_dir }}"
       register: compose_up
-
     - name: Vérifier que le service répond
       uri:
         url: "{{ health_url }}"
@@ -45,14 +33,6 @@
       retries: 5
       delay: 3
       until: health_check.status == 200
-
-    - name: Vérifier que les conteneurs sont bien "healthy"/running
-      command: docker compose ps --format json
-      args:
-        chdir: "{{ project_dir }}"
-      register: containers_status
-      changed_when: false
-
     - name: Afficher le résumé du déploiement
       debug:
         msg:
