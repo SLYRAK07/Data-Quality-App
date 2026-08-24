@@ -88,3 +88,4 @@ Un workflow GitHub Actions (`.github/workflows/tests.yml`) exécute automatiquem
 ## Limites
 
  Kubernetes, cloud complexe, alertes et moteur de règles avancé sont hors périmètre de ce prototype.# Test deploiement auto Sat Aug 22 15:49:30 +01 2026
+# Test CD Mon Aug 24 10:10:07 +01 2026
