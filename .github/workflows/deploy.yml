@@ -1,5 +1,4 @@
 name: Deploy
-
 on:
   workflow_run:
     workflows: ["Tests"]
@@ -7,7 +6,6 @@ on:
       - completed
     branches:
       - develop
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -21,4 +19,4 @@ jobs:
       - name: Lancer le deploiement Ansible
         run: |
           cd ansible
-          ansible-playbook -i inventory.ini deploy.yml
+          ansible-playbook -i inventory.ini deploy.yml -e "project_dir=${{ github.workspace }}"
